@@ -1,0 +1,22 @@
+  Q.https://leetcode.com/problems/find-the-town-judge/description/
+  
+class Solution {
+public:
+    int findJudge(int n, vector<vector<int>>& trust) {
+        vector<pair<bool,int>> sol(n,{false,0});
+        int num = trust.size();
+        for(int i=0;i<num;i++){
+            sol[trust[i][0] - 1].first = true;
+            sol[trust[i][1]-1].second ++;
+        }
+        for(int i=0;i<n;i++){
+            if(sol[i].first == false && sol[i].second == n-1){
+                return i+1;
+            }
+        }
+        return -1;
+    }
+};
+
+Mistakes made :
+I ran the first loop n times . Since the size of vector is not dependent on n , I must not run the loop for n times . I must do it for the size of the vector .
