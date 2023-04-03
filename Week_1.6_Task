@@ -1,0 +1,81 @@
+Q. https://practice.geeksforgeeks.org/problems/find-whether-path-exist5238/1
+
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+
+class Solution
+{
+    public:
+    //Function to find whether a path exists from the source to destination.
+    bool is_Possible(vector<vector<int>>& grid) 
+    {
+        pair<int,int> start ;
+        pair<int,int> end ;
+        int n = grid.size();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] == 1){
+                    start ={i,j};
+                }
+            }
+        }
+        // for(int i=0;i<n;i++){
+        //     for(int j=0;j<n;j++){
+        //         if(grid[i][j] == 2){
+        //             end ={i,j};
+        //         }
+        //     }
+        // }
+        queue<pair<int,int>> q1;
+        q1.push(start);
+        pair<int,int> arr[4] ={{1,0},{0,1},{-1,0},{0,-1}};
+        while(q1.size()){
+            int a = q1.front().first;
+            int b = q1.front().second;
+            q1.pop();
+            for(int i=0;i<4;i++){
+                int a1 = a + arr[i].first;
+                int b1 = b+arr[i].second;
+                
+                if(a1 >= 0 && a1 < n && b1 >=0 && b1 < n){
+                    if(grid[a1][b1] == 2){
+                        return true;
+                    }
+                    else if(grid[a1][b1] == 3){
+                        q1.push({a1,b1});
+                    }
+                }
+            }
+            
+       }
+       return false;
+        
+        
+    }
+};
+
+//{ Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		int n;
+		cin >> n;
+		vector<vector<int>>grid(n, vector<int>(n, -1));
+		for(int i = 0; i < n; i++){
+			for(int j = 0; j < n; j++){
+				cin >> grid[i][j];
+			}
+		}
+		Solution obj;
+		bool ans = obj.is_Possible(grid);
+		cout << ((ans) ? "1\n" : "0\n");
+	}
+	return 0;
+}
+// } Driver Code Ends
+
+Mistakes : Take care of the variables passed . Taking wrong variables i,j while they are not there . queue<pair<int,int>> requires two >> signs at the end .
