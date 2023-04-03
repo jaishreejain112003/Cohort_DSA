@@ -1,0 +1,38 @@
+Link : https://www.codingninjas.com/codestudio/problems/920551?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website
+
+bool isGraphBirpatite1(int &n ,vector<vector<int>> &edges ,int color[] ,int idx ) {
+       for(int i=0;i<n;i++){
+           if(edges[idx][i] == 1 && i != idx && color[i] == color[idx]){
+               return false;
+           }
+           else if(edges[idx][i] == 1 && color[i] == -1 ){
+                color[i] = 1- color[idx];
+                if (!isGraphBirpatite1(n, edges, color, i)) {
+                  return false;
+                }
+           }
+       }
+       
+       return true;
+}
+
+
+bool isGraphBirpatite(vector<vector<int>> &edges) {
+   
+	int size = edges.size();
+    
+    int color[size]={-1} ;
+    vector<int> color(size,-1);
+    // fill(color, color + size, -1);
+    for(int i=0;i<size;i++){
+        if(color[i] == -1){
+            color[i] =0;
+            if(!isGraphBirpatite1(size , edges , color,i)){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+Mistakes : int arr [] , passing an array to a function . The code does not work for arrays , while works for vector .
