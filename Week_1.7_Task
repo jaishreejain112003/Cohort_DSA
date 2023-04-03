@@ -1,0 +1,78 @@
+Q. https://practice.geeksforgeeks.org/problems/word-search/1
+
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution {
+public:
+    pair<int,int> arr[4] ={{1,0},{0,1},{-1,0},{0,-1}};
+        
+    bool isWordExist1(vector<vector<char>>& board, string word,int r1,int c1,vector<vector<bool>> & visited) {
+        if(!word.size()){
+            return true;
+        }
+        int row = board.size();
+        int col = board[0].size();
+        for(auto i : arr){
+            int a = r1 + i.first;
+            int b = c1 + i.second;
+            
+            if(a >=0 && a < row && b >=0 && b < col){
+                if(visited[a][b] == false && board[a][b] == word[0]){
+                    visited[a][b] = true;
+                    if(isWordExist1(board,word.substr(1),a,b,visited)){
+                        return true;
+                    }
+                    visited[a][b] = false;
+                }
+            }
+        }
+        return false;
+    }
+    bool isWordExist(vector<vector<char>>& board, string word) {
+        int row = board.size();
+        int col = board[0].size();
+        vector<vector<bool>> visited(row , vector<bool>(col,false));
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(board[i][j] == word[0] ){
+                    visited[i][j] = true;
+                    if(isWordExist1(board,word.substr(1),i,j,visited) == true){
+                        return true;
+                    }
+                    visited[i][j] = false;
+                }
+            }
+        }
+        return false;
+    }
+};
+
+//{ Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		int n, m;
+		cin >> n >> m;
+		vector<vector<char>>board(n, vector<char>(m, '*'));
+		for(int i = 0; i < n; i++)
+			for(int j = 0; j < m; j++)
+				cin >> board[i][j];
+		string word;
+		cin >> word;
+		Solution obj;
+		bool ans = obj.isWordExist(board, word);
+		if(ans)
+			cout << "1\n";
+		else cout << "0\n";
+	}
+	return 0;
+}
+// } Driver Code Ends
+
+Mistakes made :
+1. Take care of visited[i][j] = 1 && visited[i][j] == 1
+2. We must undo the changes as made in the step: 1 of finding the first letter and that letter may be included later .
