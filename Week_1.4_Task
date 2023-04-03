@@ -76,3 +76,85 @@ int main() {
 // } Driver Code Ends  
 
 Approach-2:
+As in the case of backtracking I need to make two visited arrays . One denoting the visited numbers and the other the path .
+
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution {
+  public:
+    // Function to detect cycle in a directed graph.
+    bool isCyclic1(int &V, vector<int> adj[] , vector<bool> &visited  ,int idx, vector<bool> &path) {
+        
+        for(auto i : adj[idx]){
+            if(visited[i] == true && path[i]){
+                return true;
+            }
+            else if(visited[i]){
+                continue;
+            }
+            else{
+                visited[i] = true;
+                path[i] = true;
+                if(isCyclic1(V,adj,visited,i,path)){
+                    return true;
+                }
+            }
+        }
+        path[idx] = false;
+        return false;
+        
+        
+        
+        
+    }
+    bool isCyclic(int V, vector<int> adj[]) {
+        vector<bool> perma(V,false);
+        vector<bool> path(V,false);
+        for(int i=0;i<V;i++){
+            if(perma[i] == false){
+                perma[i] = true;
+                path[i] = true;
+                if(isCyclic1(V,adj,perma,i,path)){
+                    return true;
+                }
+               
+               
+            
+            }
+            
+        }
+        return false;
+        
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+
+    int t;
+    cin >> t;
+    while (t--) {
+        int V, E;
+        cin >> V >> E;
+
+        vector<int> adj[V];
+
+        for (int i = 0; i < E; i++) {
+            int u, v;
+            cin >> u >> v;
+            adj[u].push_back(v);
+        }
+
+        Solution obj;
+        cout << obj.isCyclic(V, adj) << "\n";
+    }
+
+    return 0;
+}
+
+// } Driver Code Ends
